@@ -1,6 +1,7 @@
 const React = require('react');
 const Typeahead = require('react-bootstrap-typeahead').Typeahead
 const data = require('./data/make-model.json')
+const Weights = require('./data/data.json')
 
 class Form extends React.Component {
   constructor(){
@@ -37,8 +38,25 @@ class Form extends React.Component {
    }
 
 	_handleSubmitQuote() {
-      const r = confirm("Would you like to accept this quote for $350?");
-      if (r == true) {
+      const self = this;
+      let filteredArray = {};
+      Weights.forEach( function(elem, index) {
+          // console.log([elem["Make"], self.state.make, index]);
+          if ( elem["Make"].toUpperCase() === self.state.make &&
+               elem["Model"].toUpperCase() === self.state.model &&
+               elem["Year"] > 0 ){
+              filteredArray = elem;
+          };
+        }
+      );
+      // console.log( [self.state.make, self.state.model, filteredArray["Year"], filteredArray["Weight"]] );
+
+      let msg =  "For Your " + filteredArray["Year"] + " " + self.state.make + " " + self.state.model;
+          msg += "\nWould you like to accept this quote for $";
+          msg += ( filteredArray["Weight"]/2000 )*75.00;
+          msg += "?";
+      const r = confirm( msg );
+      if (r === true) {
           alert('Thank You! We will reach out to you soon!')
       } else {
           alert('Thank You!')
@@ -57,7 +75,7 @@ class Form extends React.Component {
 								onChange={this._handleMakeChange}
 								placeholder="Select your Vehicle's Make"
 								key="makes"
-								bsSize="md"
+								bsSize="sm"
 						/>
 						<h3>Model*</h3>
 						<Typeahead
@@ -65,7 +83,7 @@ class Form extends React.Component {
 								onChange={this._handleModelChange}
 								placeholder="Select your Vehicle's Model"
 								key="models"
-								bsSize="md"
+								bsSize="sm"
 						/>
         	</div>
         	<div className="form-group">
@@ -91,9 +109,9 @@ class Form extends React.Component {
           </div>
 
           <div className="form-group">
-            <label className="control-label" for="singlebutton"></label>
+            <label className="control-label" htmlFor="singlebutton"></label>
             <div className="">
-              <button onClick={this._handleSubmitQuote}id="singlebutton" name="singlebutton" className="btn btn-primary">Get Quote</button>
+              <button onClick={this._handleSubmitQuote} id="singlebutton" name="singlebutton" className="btn btn-primary">Get Quote</button>
             </div>
           </div>
 				</form>
@@ -103,4 +121,3 @@ class Form extends React.Component {
     }
 }
 module.exports = Form
-
