@@ -57,9 +57,9 @@ class Form extends React.Component {
           msg += "?";
       const r = confirm( msg );
       if (r === true) {
-          alert('Thank You! We will reach out to you soon!')
+          alert('Thank You! We will reach out to you soon, \nto schedule a PickUp!');
       } else {
-          alert('Thank You!')
+          alert('Thank You!');
       }
 	}
 
