@@ -44,7 +44,7 @@ class Form extends React.Component {
       Weights.forEach( function(elem, index) {
           // console.log([elem["Make"], self.state.make, index]);
           if ( elem["Make"].toUpperCase() === self.state.make &&
-               elem["Model"].toUpperCase() === self.state.model &&
+               elem["Model"].toString().toUpperCase() === self.state.model &&
                elem["Year"] > 0 ){
               filteredArray = elem;
           };
